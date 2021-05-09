@@ -1,4 +1,5 @@
 from collections import namedtuple
+import pytest
 
 
 Task = namedtuple('Task', ['summary', 'owner', 'done', 'id'])
@@ -9,6 +10,7 @@ def test_defaults():
     t2 = Task(None, None, False, None)
     assert t1 == t2
 
+@pytest.mark.run_these_case # 使用mark打标记，打上相同标记的case为【测试集合】，使用pytest -m run_these_case执行该测试集合的case
 def test_member_access():
     t = Task('buy milk', 'brian')
     assert t.summary == 'buy milk'
