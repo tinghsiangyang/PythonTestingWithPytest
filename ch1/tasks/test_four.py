@@ -1,5 +1,6 @@
 from collections import namedtuple
 import pytest
+import time
 
 
 Task = namedtuple('Task', ['summary', 'owner', 'done', 'id'])
@@ -24,6 +25,7 @@ def test_asdict():
 
 @pytest.mark.run_these_case
 def test_replace():
+    time.sleep(0.1)
     t_before = Task('finish book', 'brain', False)
     t_after = t_before._replace(id=10, done=True)
     t_excepted = Task('finish book', 'brain', True, 11)
