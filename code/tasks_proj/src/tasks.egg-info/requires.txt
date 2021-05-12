@@ -1,0 +1,6 @@
+click==7.1.2
+six
+tinydb==3.15.1
+
+[mongo]
+pymongo
