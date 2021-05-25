@@ -57,3 +57,36 @@ def test_add_4(task):
     task_id = tasks.add(task)
     t_from_db = tasks.get(task_id)
     assert equivalent(t_from_db, task)
+
+
+task_ids = ['Task({}, {}, {})'.format(t.summary, t.owner, t.done) for t in tasks_to_try]
+
+@pytest.mark.parametrize('task', tasks_to_try, ids=task_ids)
+def test_add_5(task):
+    task_id = tasks.add(task)
+    t_from_db = tasks.get(task_id)
+    assert equivalent(t_from_db, task)
+
+
+@pytest.mark.parametrize('task', tasks_to_try, ids=task_ids)
+class TestAdd():
+    def test_equivalent(self, task):
+        task_id = tasks.add(task)
+        t_from_db = tasks.get(task_id)
+        assert equivalent(t_from_db, task)
+
+    
+    def test_valid_id(self, task):
+        task_id = tasks.add(task)
+        t_from_db = tasks.get(task_id)
+        assert t_from_db.id == task_id
+
+
+@pytest.mark.parametrize('task', [
+                                    pytest.param(Task('creat'), id='just summary'),
+                                    pytest.param(Task('insproe', 'Michelle'), id='summary/owner'),
+                                    pytest.param(Task('encourage', 'michelle', True), id='summary/owner/done')])
+def test_add_6(task):
+    task_id = tasks.add(task)
+    t_from_db = tasks.get(task_id)
+    assert equivalent(t_from_db, task)
