@@ -1,16 +1,23 @@
+from _pytest.main import Session
 import pytest
 import tasks
 from tasks import Task
 
 
-@pytest.fixture()
-def tasks_db(tmpdir):
-    tasks.start_tasks_db(str(tmpdir), 'tiny')
+@pytest.fixture(scope='session')
+def tasks_db_session(tmpdir_factory):
+    temp_dir = tmpdir_factory.mktemp('temp')
+    tasks.start_tasks_db(str(temp_dir), 'tiny')
     yield
     tasks.stop_tasks_db()
 
 
 @pytest.fixture()
+def tasks_db(tasks_db_session):
+    tasks.delete_all()
+
+
+@pytest.fixture(scope='session')
 def tasks_just_a_few():
     return (
         Task('Write some code', 'Brian', True),
@@ -19,7 +26,7 @@ def tasks_just_a_few():
     )
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def tasks_mult_per_owner():
     return (
         Task('Make a cookie', 'Raphael'),
