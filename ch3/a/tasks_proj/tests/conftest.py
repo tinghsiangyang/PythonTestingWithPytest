@@ -4,10 +4,11 @@ import tasks
 from tasks import Task
 
 
-@pytest.fixture(scope='session')
-def tasks_db_session(tmpdir_factory):
+# @pytest.fixture(scope='session')
+@pytest.fixture(scope='session', params=['tiny', 'mongo'])
+def tasks_db_session(tmpdir_factory, request):
     temp_dir = tmpdir_factory.mktemp('temp')
-    tasks.start_tasks_db(str(temp_dir), 'tiny')
+    tasks.start_tasks_db(str(temp_dir), request.param)
     yield
     tasks.stop_tasks_db()
 
