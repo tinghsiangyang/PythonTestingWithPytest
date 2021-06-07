@@ -1,8 +1,10 @@
+from typing import NamedTuple
 from _pytest.cacheprovider import cache
 import pytest
 import datetime
 import time
 from random import random
+from collections import namedtuple
 
 
 @pytest.fixture(autouse=True)
@@ -22,3 +24,8 @@ def check_duration(request, cache):
 @pytest.mark.parametrize('i', range(5))
 def test_slow_stuff(i):
     time.sleep(random())
+
+
+
+
+
